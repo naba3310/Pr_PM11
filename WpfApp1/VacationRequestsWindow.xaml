@@ -1,0 +1,23 @@
+﻿<Window x:Class="WpfApp1.VacationRequestsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Заявки на отпуск" Height="450" Width="700"
+        WindowStartupLocation="CenterOwner" ResizeMode="CanMinimize">
+    <Grid Margin="10">
+        <DataGrid Name="RequestsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID заявки" Binding="{Binding RequestId}" Width="70"/>
+                <DataGridTextColumn Header="Сотрудник" Binding="{Binding EmployeeFullName}" Width="200"/>
+                <DataGridTextColumn Header="Начало отпуска" Binding="{Binding StartDateString}" Width="120"/>
+                <DataGridTextColumn Header="Окончание отпуска" Binding="{Binding EndDateString}" Width="120"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100"/>
+                <DataGridTextColumn Header="Одобрено" Binding="{Binding ApprovedByName}" Width="120"/>
+                <DataGridTextColumn Header="Дата заявки" Binding="{Binding CreatedAtString}" Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

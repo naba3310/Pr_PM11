@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KadryAdministratsiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="departments">
+    <Key>
+      <PropertyRef Name="department_id" />
+    </Key>
+    <Property Name="department_id" Type="Int32" Nullable="false" />
+    <Property Name="department_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="head_id" Type="Int32" />
+    <NavigationProperty Name="employees" Relationship="Self.FK__employees__depar__2A4B4B5E" FromRole="departments" ToRole="employees" />
+    <NavigationProperty Name="employees1" Relationship="Self.FK_Departments_Head" FromRole="departments" ToRole="employees" />
+  </EntityType>
+  <EntityType Name="employees">
+    <Key>
+      <PropertyRef Name="employee_id" />
+    </Key>
+    <Property Name="employee_id" Type="Int32" Nullable="false" />
+    <Property Name="full_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="position_id" Type="Int32" Nullable="false" />
+    <Property Name="department_id" Type="Int32" />
+    <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="hire_date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="salary" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="work_schedule" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="departments" Relationship="Self.FK__employees__depar__2A4B4B5E" FromRole="employees" ToRole="departments" />
+    <NavigationProperty Name="departments1" Relationship="Self.FK_Departments_Head" FromRole="employees" ToRole="departments" />
+    <NavigationProperty Name="positions" Relationship="Self.FK__employees__posit__29572725" FromRole="employees" ToRole="positions" />
+    <NavigationProperty Name="users" Relationship="Self.FK__users__employee___36B12243" FromRole="employees" ToRole="users" />
+    <NavigationProperty Name="vacation_requests" Relationship="Self.FK__vacation___appro__31EC6D26" FromRole="employees" ToRole="vacation_requests" />
+    <NavigationProperty Name="vacation_requests1" Relationship="Self.FK__vacation___emplo__30F848ED" FromRole="employees" ToRole="vacation_requests" />
+  </EntityType>
+  <EntityType Name="positions">
+    <Key>
+      <PropertyRef Name="position_id" />
+    </Key>
+    <Property Name="position_id" Type="Int32" Nullable="false" />
+    <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="access_level" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="employees" Relationship="Self.FK__employees__posit__29572725" FromRole="positions" ToRole="employees" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="employee_id" Type="Int32" Nullable="false" />
+    <Property Name="last_login" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="employees" Relationship="Self.FK__users__employee___36B12243" FromRole="users" ToRole="employees" />
+  </EntityType>
+  <EntityType Name="vacation_requests">
+    <Key>
+      <PropertyRef Name="request_id" />
+    </Key>
+    <Property Name="request_id" Type="Int32" Nullable="false" />
+    <Property Name="employee_id" Type="Int32" Nullable="false" />
+    <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="approved_by" Type="Int32" />
+    <Property Name="created_at" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="employees" Relationship="Self.FK__vacation___appro__31EC6D26" FromRole="vacation_requests" ToRole="employees" />
+    <NavigationProperty Name="employees1" Relationship="Self.FK__vacation___emplo__30F848ED" FromRole="vacation_requests" ToRole="employees" />
+  </EntityType>
+  <Association Name="FK__employees__depar__2A4B4B5E">
+    <End Role="departments" Type="Self.departments" Multiplicity="0..1" />
+    <End Role="employees" Type="Self.employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="departments">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="employees">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Departments_Head">
+    <End Role="employees" Type="Self.employees" Multiplicity="0..1" />
+    <End Role="departments" Type="Self.departments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="employees">
+        <PropertyRef Name="employee_id" />
+      </Principal>
+      <Dependent Role="departments">
+        <PropertyRef Name="head_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__employees__posit__29572725">
+    <End Role="positions" Type="Self.positions" Multiplicity="1" />
+    <End Role="employees" Type="Self.employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="positions">
+        <PropertyRef Name="position_id" />
+      </Principal>
+      <Dependent Role="employees">
+        <PropertyRef Name="position_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__users__employee___36B12243">
+    <End Role="employees" Type="Self.employees" Multiplicity="1" />
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="employees">
+        <PropertyRef Name="employee_id" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="employee_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__vacation___appro__31EC6D26">
+    <End Role="employees" Type="Self.employees" Multiplicity="0..1" />
+    <End Role="vacation_requests" Type="Self.vacation_requests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="employees">
+        <PropertyRef Name="employee_id" />
+      </Principal>
+      <Dependent Role="vacation_requests">
+        <PropertyRef Name="approved_by" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__vacation___emplo__30F848ED">
+    <End Role="employees" Type="Self.employees" Multiplicity="1" />
+    <End Role="vacation_requests" Type="Self.vacation_requests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="employees">
+        <PropertyRef Name="employee_id" />
+      </Principal>
+      <Dependent Role="vacation_requests">
+        <PropertyRef Name="employee_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="KadryAdministratsiEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="departments" EntityType="Self.departments" />
+    <EntitySet Name="employees" EntityType="Self.employees" />
+    <EntitySet Name="positions" EntityType="Self.positions" />
+    <EntitySet Name="users" EntityType="Self.users" />
+    <EntitySet Name="vacation_requests" EntityType="Self.vacation_requests" />
+    <AssociationSet Name="FK__employees__depar__2A4B4B5E" Association="Self.FK__employees__depar__2A4B4B5E">
+      <End Role="departments" EntitySet="departments" />
+      <End Role="employees" EntitySet="employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Departments_Head" Association="Self.FK_Departments_Head">
+      <End Role="employees" EntitySet="employees" />
+      <End Role="departments" EntitySet="departments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__employees__posit__29572725" Association="Self.FK__employees__posit__29572725">
+      <End Role="positions" EntitySet="positions" />
+      <End Role="employees" EntitySet="employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__users__employee___36B12243" Association="Self.FK__users__employee___36B12243">
+      <End Role="employees" EntitySet="employees" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="FK__vacation___appro__31EC6D26" Association="Self.FK__vacation___appro__31EC6D26">
+      <End Role="employees" EntitySet="employees" />
+      <End Role="vacation_requests" EntitySet="vacation_requests" />
+    </AssociationSet>
+    <AssociationSet Name="FK__vacation___emplo__30F848ED" Association="Self.FK__vacation___emplo__30F848ED">
+      <End Role="employees" EntitySet="employees" />
+      <End Role="vacation_requests" EntitySet="vacation_requests" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
